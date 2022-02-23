@@ -48,23 +48,27 @@ function moviesAverageByCategory(movies, genre) {
   return suma / moviesByGenre.length;
 }
 
-// Exercise 7: Modify the duration of movies to minutes
-function convertTimeToMinutes(duration) {
-  const hours = duration.slice(0, duration.indexOf('h'));
-  const min = duration.slice(
-    duration.indexOf('min') - 2,
-    duration.indexOf('min')
-  );
-
-  return duration.length > 3
-    ? parseInt(hours * 60) + parseInt(min)
-    : parseInt(hours * 60);
-}
-
 function hoursToMinutes(movies) {
-  const moviesTimeToMinutes = movies.map((movie) => {
-    movie.duration = convertTimeToMinutes(movie.duration);
-    return movie;
+  function convertTimeToMinutes(duration) {
+    const hours = duration.slice(0, duration.indexOf('h'));
+    const min = duration.slice(
+      duration.indexOf('min') - 2,
+      duration.indexOf('min')
+    );
+
+    return duration.length > 3
+      ? parseInt(hours * 60) + parseInt(min)
+      : parseInt(hours * 60);
+  }
+
+  const duration = movies.map((movie) => movie.duration);
+
+  const durationMinutes = duration.map((x) => {
+    return (x = convertTimeToMinutes(x));
+  });
+
+  const moviesTimeToMinutes = movies.map((movie, index) => {
+    return { ...movie, duration: durationMinutes[index] };
   });
 
   return moviesTimeToMinutes;
